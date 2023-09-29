@@ -39,8 +39,8 @@ public class H2DemoApplication {
 			log.info("");
 
 			// fetch an individual Book by ID
-			Book book = repository.findById(1L);
-			log.info("Book found with findById(1L):");
+			Book book = repository.findById(2L);
+			log.info("Book found with findById(2L):");
 			log.info("--------------------------------");
 			log.info(book.toString());
 			log.info("");
@@ -63,9 +63,9 @@ public class H2DemoApplication {
 			log.info("");
 
 			// fetch Books by page amount
-			log.info("Book found by findByPages('355'):");
+			log.info("Book found by findByPages('450'):");
 			log.info("--------------------------------------------");
-			repository.findByPages(355).forEach(pageAmount -> {
+			repository.findByPages(450).forEach(pageAmount -> {
 				log.info(pageAmount.toString());
 			});
 			log.info("");
