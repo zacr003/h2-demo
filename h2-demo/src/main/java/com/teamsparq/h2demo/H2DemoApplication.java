@@ -14,9 +14,11 @@ import org.springframework.context.annotation.Bean;
 public class H2DemoApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(H2DemoApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(H2DemoApplication.class, args);
 	}
+
 	@Bean
 	CommandLineRunner commandLineRunner(BookRepository repository) {
 		return (args) -> {
@@ -25,7 +27,49 @@ public class H2DemoApplication {
 			repository.save(new Book(3, "Hummingbird", 450, "Jude Angelini"));
 			repository.save(new Book(4, "Paths To God", 675, "Ram Dass"));
 			repository.save(new Book(5, "The Color of Magic", 300, "Terry Pratchett"));
+
+
+			// fetch all Books
+
+			log.info("Books found with findAll():");
+			log.info("-------------------------------");
+			for (Book book : repository.findAll()) {
+				log.info(book.toString());
+			}
+			log.info("");
+
+			// fetch an individual Book by ID
+			Book book = repository.findById(1L);
+			log.info("Book found with findById(1L):");
+			log.info("--------------------------------");
+			log.info(book.toString());
+			log.info("");
+
+
+			// fetch title of Book
+			log.info("Book found with title('Shantaram'):");
+			log.info("--------------------------------------------");
+			repository.findByTitle("Shantaram").forEach(shantaram -> {
+				log.info(shantaram.toString());
+			});
+			log.info("");
+
+			// fetch Book by Author
+			log.info("Book found by author('Ram Dass'):");
+			log.info("--------------------------------------------");
+			repository.findByAuthor("Ram Dass").forEach(dass -> {
+				log.info(dass.toString());
+			});
+			log.info("");
+
+			// fetch Books by page amount
+			log.info("Book found by findByPages('355'):");
+			log.info("--------------------------------------------");
+			repository.findByPages(355).forEach(pageAmount -> {
+				log.info(pageAmount.toString());
+			});
+			log.info("");
 		};
 	}
-
 }
+
