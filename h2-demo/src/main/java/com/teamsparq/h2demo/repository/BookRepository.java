@@ -2,12 +2,13 @@ package com.teamsparq.h2demo.repository;
 
 import com.teamsparq.h2demo.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+
 
 import java.util.List;
+import java.util.Optional;
 
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findByTitle(String title);
 
@@ -15,5 +16,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByAuthor(String author);
 
-    Book findById(long id);
+    Optional<Book> findById(Integer id);
+
 }

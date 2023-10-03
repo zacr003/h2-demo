@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.Bean;
 
+import java.util.Optional;
+
 @SpringBootApplication
 public class H2DemoApplication {
 
@@ -39,8 +41,8 @@ public class H2DemoApplication {
 			log.info("");
 
 			// fetch an individual Book by ID
-			Book book = repository.findById(2L);
-			log.info("Book found with findById(2L):");
+			Optional<Book> book = repository.findById(2);
+			log.info("Book found with findById(2):");
 			log.info("--------------------------------");
 			log.info(book.toString());
 			log.info("");
