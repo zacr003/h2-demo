@@ -1,6 +1,6 @@
 package com.teamsparq.h2demo.repository;
 
-import com.teamsparq.h2demo.model.Book;
+import com.teamsparq.h2demo.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

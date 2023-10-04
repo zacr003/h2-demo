@@ -1,6 +1,6 @@
 package com.teamsparq.h2demo.controller;
 
-import com.teamsparq.h2demo.model.Book;
+import com.teamsparq.h2demo.entity.Book;
 import com.teamsparq.h2demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

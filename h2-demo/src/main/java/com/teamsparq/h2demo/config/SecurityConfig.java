@@ -38,17 +38,6 @@ public class SecurityConfig {
     private static final String API_URL_PATTERN = "/v1/**";
 
 
-    //    @Bean
-//    public InMemoryUserDetailsManager users() {
-//        return new InMemoryUserDetailsManager(
-//                User.withUsername("zac")
-//                        .password("{noop}password")
-//                        .roles("ADMIN")
-////                        .authorities("read")
-//                        .build()
-//        );
-//    }
-
     @Bean
     EmbeddedDatabase dataSource() {
         return new EmbeddedDatabaseBuilder()

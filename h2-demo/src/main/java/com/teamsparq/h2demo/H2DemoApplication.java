@@ -1,6 +1,6 @@
 package com.teamsparq.h2demo;
 
-import com.teamsparq.h2demo.model.Book;
+import com.teamsparq.h2demo.entity.Book;
 import com.teamsparq.h2demo.repository.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

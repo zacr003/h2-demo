@@ -1,4 +1,4 @@
-package com.teamsparq.h2demo.model;
+package com.teamsparq.h2demo.entity;
 
 
 import jakarta.persistence.Entity;
