@@ -1,6 +1,5 @@
 package com.teamsparq.h2demo.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,16 +15,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "email")
-})
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +43,22 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"users_id", "roles_id"}))
     private Set<Role> roles = new HashSet<>();
+
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "users_books",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//    inverseJoinColumns = @JoinColumn(name = "book_id"))
+//    private Set<Book> books = new HashSet<>();
+
 
     public User() {
     }
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -97,4 +104,12 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+//    public Set<Book> getBooks() {
+//        return books;
+//    }
+//
+//    public void setBooks(Set<Book> books) {
+//        this.books = books;
+//    }
 }

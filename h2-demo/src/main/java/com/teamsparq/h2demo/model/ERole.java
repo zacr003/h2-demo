@@ -1,7 +1,7 @@
 package com.teamsparq.h2demo.model;
 
 public enum ERole {
-    ROLE_USER,
-    ROLE_MODERATOR,
-    ROLE_ADMIN
+    ROLE_CUSTOMER,
+    ROLE_MANAGER,
+    ROLE_OWNER
 }

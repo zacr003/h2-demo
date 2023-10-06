@@ -1,4 +1,4 @@
-package com.teamsparq.h2demo.service;
+package com.teamsparq.h2demo.security.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.teamsparq.h2demo.entity.User;
