@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +44,13 @@ public class UserService implements IUserService {
             throw new UserAlreadyExistsException("There is an account with that email address: " +accountDto.getEmail());
         }
         final User user = new User();
+
+        user.setUsername(accountDto.getUserName());
+        user.setEmail(accountDto.getEmail());
+        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        user.setUsing2FA(accountDto.isUsing2FA());
+        user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_USER")));
+        return userRepository.save(user);
     }
 
     @Override
