@@ -11,7 +11,7 @@ import com.teamsparq.h2demo.payload.response.UserInfoResponse;
 import com.teamsparq.h2demo.repository.RoleRepository;
 import com.teamsparq.h2demo.repository.UserRepository;
 import com.teamsparq.h2demo.security.jwt.JwtUtils;
-import com.teamsparq.h2demo.security.service.UserDetailsImpl;
+import com.teamsparq.h2demo.security.service.UserService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserService userDetails = (UserService) authentication.getPrincipal();
 
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
@@ -120,7 +120,7 @@ public class AuthController {
                 }
             });
         }
-        user.setRoles(roles);
+//        user.setRoles(roles);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

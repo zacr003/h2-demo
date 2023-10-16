@@ -1,16 +1,19 @@
 package com.teamsparq.h2demo;
 
 import com.teamsparq.h2demo.entity.User;
+import com.teamsparq.h2demo.model.ERole;
 import com.teamsparq.h2demo.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.context.request.RequestContextListener;
 
 @SpringBootApplication
-public class H2DemoApplication {
+public class H2DemoApplication extends SpringBootServletInitializer {
 
 	private static final Logger log = LoggerFactory.getLogger(H2DemoApplication.class);
 
@@ -18,10 +21,22 @@ public class H2DemoApplication {
 		SpringApplication.run(H2DemoApplication.class, args);
 	}
 
-//	@Bean
+
+	@Bean
+	public RequestContextListener requestContextListener() {
+		return new RequestContextListener();
+	}
+
+
+}
+
+
+	//	@Bean
 //	CommandLineRunner commandLineRunner(UserRepository repository) {
 //		return (args) -> {
 //			repository.save(new User("zcr03", "zcr03@hotmail.com", "password"));
+//		};
+//	}
 
 
 //
@@ -67,5 +82,5 @@ public class H2DemoApplication {
 ////			log.info("");
 //		};
 //	}
-}
+
 

@@ -19,35 +19,35 @@ public class TestController {
 
     @GetMapping("/all")
     public String allAccess() {
-        return "Public Content!";
+        return "This is for all eyes to see and be amazed!";
     }
+
     @GetMapping("/customer")
-    @PreAuthorize("hasRole('OWNER') or hasRole('MANAGER') or hasRole('CUSTOMER')")
+//    @PreAuthorize("hasRole('OWNER') or hasRole('MANAGER') or hasRole('CUSTOMER')")
     public String customerAccess() {
         return "Greetings Customer!";
     }
-
-
+    
     @GetMapping("/manager")
-    @PreAuthorize("hasRole('MANAGER')")
+//    @PreAuthorize("hasRole('MANAGER')")
     public String managerAccess() {
         return "Welcome to the Manager Board!";
     }
 
     @GetMapping("/owner")
-    @PreAuthorize("hasRole('OWNER')")
+//    @PreAuthorize("hasRole('OWNER')")
     public String ownerAccess() {
         return "Welcome to the Owner Board!";
     }
 
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
-    }
+//    @RequestMapping(value="/logout", method = RequestMethod.GET)
+//    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null){
+//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//        }
+//        return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
+//    }
 
 }
