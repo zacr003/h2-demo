@@ -1,6 +1,6 @@
 package com.teamsparq.h2demo.security.jwt;
 
-import com.teamsparq.h2demo.security.service.MyUserDetailsService;
+import com.teamsparq.h2demo.security.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 

@@ -1,7 +1,7 @@
 package com.teamsparq.h2demo;
 
 import com.teamsparq.h2demo.entity.User;
-import com.teamsparq.h2demo.model.ERole;
+
 import com.teamsparq.h2demo.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

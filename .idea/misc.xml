@@ -3,6 +3,7 @@
   <component name="EntryPointsManager">
     <writeAnnotations>
       <writeAnnotation name="jakarta.persistence.OneToMany" />
+      <writeAnnotation name="com.fasterxml.jackson.annotation.JsonIgnore" />
     </writeAnnotations>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />

@@ -11,7 +11,8 @@ import com.teamsparq.h2demo.payload.response.UserInfoResponse;
 import com.teamsparq.h2demo.repository.RoleRepository;
 import com.teamsparq.h2demo.repository.UserRepository;
 import com.teamsparq.h2demo.security.jwt.JwtUtils;
-import com.teamsparq.h2demo.security.service.UserService;
+
+import com.teamsparq.h2demo.security.service.UserDetailsImpl;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,6 +34,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.teamsparq.h2demo.model.ERole.ROLE_ADMIN;
+import static com.teamsparq.h2demo.model.ERole.ROLE_MODERATOR;
+import static com.teamsparq.h2demo.model.ERole.ROLE_USER;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -62,16 +69,17 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserService userDetails = (UserService) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .toList();
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserInfoResponse(userDetails.getId(),
+                .body(new UserInfoResponse(
+                        userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail(),
                         roles));
@@ -89,38 +97,39 @@ public class AuthController {
 
         // Create new user's account
         User user = new User(signupRequest.getUsername(),
-                             signupRequest.getEmail(),
-                             encoder.encode(signupRequest.getPassword()));
+                signupRequest.getEmail(),
+                encoder.encode(signupRequest.getPassword()));
 
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role customerRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
+            Role userRole = roleRepository.findByName(ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(customerRole);
+            roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "owner":
-                        Role ownerRole = roleRepository.findByName(ERole.ROLE_OWNER)
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(ownerRole);
+                        roles.add(adminRole);
 
                         break;
-                    case "manager":
-                        Role managerRole = roleRepository.findByName(ERole.ROLE_MANAGER)
+                    case "mod":
+                        Role modRole = roleRepository.findByName(ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(managerRole);
+                        roles.add(modRole);
 
                         break;
                     default:
-                        Role customerRole = roleRepository.findByName(ERole.ROLE_CUSTOMER)
+                        Role userRole = roleRepository.findByName(ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
                 }
             });
         }
-//        user.setRoles(roles);
+        user.setRoles(roles);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

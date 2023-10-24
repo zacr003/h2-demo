@@ -22,22 +22,22 @@ public class TestController {
         return "This is for all eyes to see and be amazed!";
     }
 
-    @GetMapping("/customer")
-//    @PreAuthorize("hasRole('OWNER') or hasRole('MANAGER') or hasRole('CUSTOMER')")
-    public String customerAccess() {
-        return "Greetings Customer!";
-    }
-    
-    @GetMapping("/manager")
-//    @PreAuthorize("hasRole('MANAGER')")
-    public String managerAccess() {
-        return "Welcome to the Manager Board!";
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public String userAccess() {
+        return "Greetings User!";
     }
 
-    @GetMapping("/owner")
-//    @PreAuthorize("hasRole('OWNER')")
-    public String ownerAccess() {
-        return "Welcome to the Owner Board!";
+    @GetMapping("/mod")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public String moderatorAccess() {
+        return "Welcome to the Moderator Board!";
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String adminAccess() {
+        return "Welcome to the Admin Board, almighty King!";
     }
 
 
