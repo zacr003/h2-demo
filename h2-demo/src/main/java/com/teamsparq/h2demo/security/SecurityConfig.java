@@ -2,27 +2,36 @@ package com.teamsparq.h2demo.security;
 
 import com.teamsparq.h2demo.security.jwt.AuthEntryPointJwt;
 import com.teamsparq.h2demo.security.jwt.AuthTokenFilter;
+import com.teamsparq.h2demo.security.service.UserDetailsImpl;
 import com.teamsparq.h2demo.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 
@@ -104,30 +113,7 @@ public class SecurityConfig {
 }
 
 
-//    @Bean
-//    JdbcUserDetailsManager users(DataSource dataSource, PasswordEncoder encoder) {
-//       UserDetails admin = User.builder()
-//                .username("owner")
-//                .password(encoder.encode("my_secret_password_1234"))
-//                .roles("Owner")
-//                .build();
-//       UserDetails user = User.builder()
-//                .username("Zac")
-//                .password(encoder.encode("password"))
-//                .roles("Manager")
-//                .build();
-//       UserDetails customer = User.builder()
-//                .username("Angie")
-//                .password(encoder.encode("password"))
-//               .roles("Customer")
-//                .build();
-//
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        jdbcUserDetailsManager.createUser(admin);
-//        jdbcUserDetailsManager.createUser(user);
-//        jdbcUserDetailsManager.createUser(customer);
-//        return jdbcUserDetailsManager;
-//    }
+
 
 
 //    @Bean
