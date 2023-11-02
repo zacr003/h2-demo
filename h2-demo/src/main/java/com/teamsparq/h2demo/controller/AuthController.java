@@ -3,9 +3,8 @@ package com.teamsparq.h2demo.controller;
 
 import com.teamsparq.h2demo.entity.Role;
 import com.teamsparq.h2demo.entity.User;
-import com.teamsparq.h2demo.model.ERole;
 import com.teamsparq.h2demo.payload.request.LoginRequest;
-import com.teamsparq.h2demo.payload.request.SignupRequest;
+import com.teamsparq.h2demo.payload.request.RegisterRequest;
 import com.teamsparq.h2demo.payload.response.MessageResponse;
 import com.teamsparq.h2demo.payload.response.UserInfoResponse;
 import com.teamsparq.h2demo.repository.RoleRepository;
@@ -26,7 +25,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,22 +84,22 @@ public class AuthController {
                         roles));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+        if (userRepository.existsByUsername(registerRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
-        User user = new User(signupRequest.getUsername(),
-                signupRequest.getEmail(),
-                encoder.encode(signupRequest.getPassword()));
+        User user = new User(registerRequest.getUsername(),
+                registerRequest.getEmail(),
+                encoder.encode(registerRequest.getPassword()));
 
-        Set<String> strRoles = signupRequest.getRole();
+        Set<String> strRoles = registerRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {

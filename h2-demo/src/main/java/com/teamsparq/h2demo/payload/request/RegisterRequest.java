@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
-public class SignupRequest {
+public class RegisterRequest {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
